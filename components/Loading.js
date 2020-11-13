@@ -64,7 +64,7 @@ class Loading extends Component {
     if (this.props.loading) {
       return (
         <View style={styles.container}>
-          <Animated.View style={[
+          {/* <Animated.View style={[
             styles.line,
             {
               backgroundColor: this.props.theme,
@@ -72,7 +72,7 @@ class Loading extends Component {
               transform: [{ translateX }]
             }
           ]}
-          />
+          /> */}
         </View>
       )
     }

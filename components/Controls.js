@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   View,
   Animated,
-  StyleSheet,
+  StyleSheet, SafeAreaView,
   TouchableWithoutFeedback as Touchable
 } from 'react-native'
 import {
@@ -68,7 +68,7 @@ class Controls extends Component {
           break
         case this.state.hideControls:
           break
-        case this.state.seconds > this.props.controlDuration:
+        case this.state.seconds > 3:
           this.hideControls()
           break
         default:
@@ -127,8 +127,7 @@ class Controls extends Component {
       currentTime,
       duration,
       theme,
-      inlineOnly,
-      hideFullScreenControl
+      inlineOnly
     } = this.props
 
     const { center, ...controlBar } = theme
@@ -151,22 +150,23 @@ class Controls extends Component {
               theme={center}
             />
           </Animated.View>
-          <ControlBar
-            toggleFS={() => this.props.toggleFS()}
-            toggleMute={() => this.props.toggleMute()}
-            togglePlay={() => this.props.togglePlay()}
-            muted={muted}
-            paused={paused}
-            fullscreen={fullscreen}
-            onSeek={pos => this.onSeek(pos)}
-            onSeekRelease={pos => this.onSeekRelease(pos)}
-            progress={progress}
-            currentTime={currentTime}
-            duration={duration}
-            theme={controlBar}
-            inlineOnly={inlineOnly}
-            hideFullScreenControl={hideFullScreenControl}
-          />
+          <SafeAreaView>
+            <ControlBar
+              toggleFS={() => this.props.toggleFS()}
+              toggleMute={() => this.props.toggleMute()}
+              togglePlay={() => this.props.togglePlay()}
+              muted={muted}
+              paused={paused}
+              fullscreen={fullscreen}
+              onSeek={pos => this.onSeek(pos)}
+              onSeekRelease={pos => this.onSeekRelease(pos)}
+              progress={progress}
+              currentTime={currentTime}
+              duration={duration}
+              theme={controlBar}
+              inlineOnly={inlineOnly}
+            />
+          </SafeAreaView>
         </Animated.View>
       </Touchable>
     )
@@ -190,7 +190,6 @@ Controls.propTypes = {
   onMorePress: PropTypes.func.isRequired,
   paused: PropTypes.bool.isRequired,
   inlineOnly: PropTypes.bool.isRequired,
-  hideFullScreenControl: PropTypes.bool.isRequired,
   fullscreen: PropTypes.bool.isRequired,
   muted: PropTypes.bool.isRequired,
   more: PropTypes.bool.isRequired,

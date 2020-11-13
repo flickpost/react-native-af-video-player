@@ -75,7 +75,6 @@ title                 | string   | No       | ''                        | Adds a
 placeholder           | string   | No       | undefined                 | Adds an image placeholder while it's loading and stopped at the beginning
 logo                  | string   | No       | undefined                 | Adds an image logo at the top left corner of the video
 theme                 | string   | No       | 'white'                   | Adds an optional theme colour to the players controls
-hideFullScreenControl | bool     | No       | false                     | This hides the full screen control
 style                 | number, object | No | {}                        | Apply styles directly to the Video player (ignored in fullscreen mode)
 resizeMode            | string   | No       | 'contain'                 | Fills the whole screen at aspect ratio. contain, cover etc
 rotateToFullScreen    | bool     | No       | false                     | Tapping the fullscreen button will rotate the screen. Also rotating the screen will automatically switch to fullscreen mode
@@ -98,7 +97,6 @@ onError               | function | No       | (error) => {}             | Return
 onPlay                | function | No       | (playing) => {}           | Returns a boolean during playback
 error                 | boolean, object | No | true                     | Pass in an object to Alert. See https://facebook.github.io/react-native/docs/alert.html
 theme                 | object   | No       | all white                 | Pass in an object to theme. (See example below to see the full list of available settings)
-controlDuration             | number   | No       | 3                 | Set the visibility time of the pause button and the progress bar after the video was started
 
 ## Referencing
 

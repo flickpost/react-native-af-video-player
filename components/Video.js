@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import {
   Text,
@@ -8,14 +8,16 @@ import {
   BackHandler,
   Animated,
   Image,
-  Alert
+  Alert,
+  View
 } from 'react-native'
 import VideoPlayer from 'react-native-video'
 import KeepAwake from 'react-native-keep-awake'
 import Orientation from 'react-native-orientation'
-import Icons from 'react-native-vector-icons/MaterialIcons'
+// import Icons from 'react-native-vector-icons/MaterialIcons'
 import { Controls } from './'
 import { checkSource } from './utils'
+import { win } from '../../../app/constants/constants'
 const Win = Dimensions.get('window')
 const backgroundColor = '#000'
 
@@ -25,6 +27,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 98
+  },
+  background1: {
+    backgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 98,
+    height: win.height,
+    // borderRadius: 15
   },
   fullScreen: {
     ...StyleSheet.absoluteFillObject
@@ -51,7 +61,7 @@ const defaultTheme = {
   loading: '#FFF'
 }
 
-class Video extends Component {
+class Video extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -180,7 +190,7 @@ class Video extends Component {
           type = Alert.alert(error.title, error.message, error.button, error.options)
           break
         default:
-          type = Alert.alert('Oops!', 'There was an error playing this video, please try again later.', [{ text: 'Close' }])
+          type = console.log('Oops!', 'There was an error playing this video, please try again later.', [{ text: 'Close' }])
           break
       }
       return type
@@ -311,17 +321,16 @@ class Video extends Component {
     }
     const textStyle = { color: 'white', padding: 10 }
     return (
-      <Animated.View
-        style={[styles.background, fullScreen ? styles.fullScreen : inline]}
-      >
-        <Text style={textStyle}>Retry</Text>
-        <Icons
-          name="replay"
-          size={60}
-          color={this.props.theme}
-          onPress={() => this.setState({ renderError: false })}
-        />
-      </Animated.View>
+      <>
+        <View style={{ backgroundColor: 'black', overflow: 'hidden', height: win.height }}>
+          <Animated.View
+            style={[styles.background1, fullScreen ? styles.fullScreen : inline, { justifyContent: 'center' }]}
+          >
+            {/* <Text style={{ ...textStyle, top: win.height / 3 }}>Retry</Text> */}
+            <Text style={{ ...textStyle, top: win.height / 3 }}>Video not found</Text>
+          </Animated.View>
+        </View>
+      </>
     )
   }
 
@@ -353,8 +362,7 @@ class Video extends Component {
       inlineOnly,
       playInBackground,
       playWhenInactive,
-      controlDuration,
-      hideFullScreenControl
+      previewscreenn
     } = this.props
 
     const inline = {
@@ -403,7 +411,7 @@ class Video extends Component {
           // onBuffer={() => this.onBuffer()} // Callback when remote video is buffering
           onTimedMetadata={e => onTimedMetadata(e)} // Callback when the stream receive some metadata
         />
-        <Controls
+        {!previewscreenn ? <Controls
           ref={(ref) => { this.controls = ref }}
           toggleMute={() => this.toggleMute()}
           toggleFS={() => this.toggleFS()}
@@ -423,9 +431,8 @@ class Video extends Component {
           onMorePress={() => onMorePress()}
           theme={setTheme}
           inlineOnly={inlineOnly}
-          controlDuration={controlDuration}
-          hideFullScreenControl={hideFullScreenControl}
-        />
+        /> : null}
+
       </Animated.View>
     )
   }
@@ -456,7 +463,6 @@ Video.propTypes = {
   loop: PropTypes.bool,
   autoPlay: PropTypes.bool,
   inlineOnly: PropTypes.bool,
-  hideFullScreenControl: PropTypes.bool,
   fullScreenOnly: PropTypes.bool,
   playInBackground: PropTypes.bool,
   playWhenInactive: PropTypes.bool,
@@ -476,8 +482,7 @@ Video.propTypes = {
   logo: PropTypes.string,
   title: PropTypes.string,
   theme: PropTypes.object,
-  resizeMode: PropTypes.string,
-  controlDuration: PropTypes.number,
+  resizeMode: PropTypes.string
 }
 
 Video.defaultProps = {
@@ -492,22 +497,21 @@ Video.defaultProps = {
   playWhenInactive: false,
   rotateToFullScreen: false,
   lockPortraitOnFsExit: false,
-  onEnd: () => {},
-  onLoad: () => {},
-  onPlay: () => {},
-  onError: () => {},
-  onProgress: () => {},
+  onEnd: () => { },
+  onLoad: () => { },
+  onPlay: () => { },
+  onError: () => { },
+  onProgress: () => { },
   onMorePress: undefined,
-  onFullScreen: () => {},
-  onTimedMetadata: () => {},
+  onFullScreen: () => { },
+  onTimedMetadata: () => { },
   rate: 1,
   volume: 1,
   lockRatio: undefined,
   logo: undefined,
   title: '',
   theme: defaultTheme,
-  resizeMode: 'contain',
-  controlDuration: 3,
+  resizeMode: 'contain'
 }
 
 export default Video
